@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>ZephirStudio - Fiverr Gig Image</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .gig-image {
+    width: 1280px;
+    height: 769px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+  }
+
+  /* Subtle grid pattern overlay */
+  .gig-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+  }
+
+  /* Glow effect */
+  .glow {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+  }
+  .glow-1 {
+    background: rgba(59, 130, 246, 0.15);
+    top: -100px;
+    left: -100px;
+  }
+  .glow-2 {
+    background: rgba(16, 185, 129, 0.1);
+    bottom: -100px;
+    right: 100px;
+  }
+
+  /* LEFT SIDE — Text content */
+  .left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 40px 60px 70px;
+    z-index: 1;
+    position: relative;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #34d399;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    width: fit-content;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .badge::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: #34d399;
+    border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .headline {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #f8fafc;
+    margin-bottom: 20px;
+    letter-spacing: -1.5px;
+  }
+
+  .headline .accent {
+    background: linear-gradient(135deg, #3b82f6, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subheadline {
+    font-size: 20px;
+    color: #94a3b8;
+    line-height: 1.5;
+    margin-bottom: 36px;
+    max-width: 440px;
+  }
+
+  .stats {
+    display: flex;
+    gap: 32px;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #f8fafc;
+  }
+
+  .stat-number .green { color: #34d399; }
+
+  .stat-label {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+
+  /* RIGHT SIDE — Phone mockup */
+  .right {
+    width: 460px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    position: relative;
+    padding-right: 40px;
+  }
+
+  .phone {
+    width: 300px;
+    height: 600px;
+    background: #1a1a2e;
+    border-radius: 36px;
+    border: 3px solid #2d2d44;
+    overflow: hidden;
+    box-shadow: 
+      0 25px 80px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(255,255,255,0.05) inset;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .phone-notch {
+    width: 120px;
+    height: 28px;
+    background: #0f0f1a;
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .phone-header {
+    background: linear-gradient(135deg, #1e40af, #059669);
+    padding: 16px 20px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .phone-avatar {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .phone-title {
+    color: white;
+    font-weight: 700;
+    font-size: 15px;
+  }
+
+  .phone-status {
+    color: rgba(255,255,255,0.7);
+    font-size: 11px;
+    margin-top: 1px;
+  }
+
+  .chat-area {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    background: #0f0f1a;
+  }
+
+  .msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    line-height: 1.45;
+    animation: msg-in 0.5s ease-out both;
+  }
+
+  .msg-bot {
+    background: #1e293b;
+    color: #e2e8f0;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+  }
+
+  .msg-user {
+    background: linear-gradient(135deg, #2563eb, #059669);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+  }
+
+  .msg-time {
+    font-size: 10px;
+    color: #475569;
+    margin-top: 4px;
+  }
+
+  .msg-user .msg-time {
+    color: rgba(255,255,255,0.6);
+    text-align: right;
+  }
+
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg:nth-child(1) { animation-delay: 0.2s; }
+  .msg:nth-child(2) { animation-delay: 0.6s; }
+  .msg:nth-child(3) { animation-delay: 1.0s; }
+  .msg:nth-child(4) { animation-delay: 1.4s; }
+  .msg:nth-child(5) { animation-delay: 1.8s; }
+
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 10px 14px;
+    background: #1e293b;
+    border-radius: 16px;
+    border-bottom-left-radius: 4px;
+    align-self: flex-start;
+    width: 60px;
+    animation: msg-in 0.5s ease-out both;
+    animation-delay: 2.2s;
+  }
+
+  .typing-dot {
+    width: 7px;
+    height: 7px;
+    background: #64748b;
+    border-radius: 50%;
+    animation: typing 1.4s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  .phone-input {
+    padding: 12px 16px;
+    background: #1a1a2e;
+    border-top: 1px solid #2d2d44;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .input-field {
+    flex: 1;
+    background: #0f0f1a;
+    border: 1px solid #2d2d44;
+    border-radius: 20px;
+    padding: 9px 14px;
+    color: #64748b;
+    font-size: 12px;
+  }
+
+  .send-btn {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #2563eb, #059669);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .send-btn::after {
+    content: '↑';
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  /* Branding */
+  .brand {
+    position: absolute;
+    bottom: 30px;
+    left: 70px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+  }
+
+  .brand-logo {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #3b82f6, #10b981);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    color: white;
+    font-size: 14px;
+  }
+
+  .brand-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 1px;
+  }
+
+  /* Checklist overlay on left */
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #cbd5e1;
+  }
+
+  .check-icon {
+    width: 18px;
+    height: 18px;
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #34d399;
+    flex-shrink: 0;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="gig-image">
+  <!-- Glow effects -->
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <!-- LEFT — Text content -->
+  <div class="left">
+    <div class="badge">● Available 24/7</div>
+
+    <h1 class="headline">
+      Your Business,<br>
+      <span class="accent">Always On.</span>
+    </h1>
+
+    <p class="subheadline">
+      Custom chatbot that books appointments, takes orders, and answers questions — even at 2 AM.
+    </p>
+
+    <div class="checklist">
+      <div class="check-item">
+        <div class="check-icon">✓</div>
+        <span>Books appointments automatically</span>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">✓</div>
+        <span>Takes orders & reservations</span>
+      </div>
+      <div class="check-item">
+        <div class="check-icon">✓</div>
+        <span>Answers FAQs instantly</span>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number"><span class="green">30%</span>+</div>
+        <div class="stat-label">More Bookings</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number"><span class="green">5</span>hrs+</div>
+        <div class="stat-label">Saved Weekly</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Always Active</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT — Phone mockup -->
+  <div class="right">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-header">
+        <div class="phone-avatar">💬</div>
+        <div>
+          <div class="phone-title">Luxe Salon</div>
+          <div class="phone-status">● Online — replies instantly</div>
+        </div>
+      </div>
+
+      <div class="chat-area">
+        <div class="msg msg-user">
+          Hi! I'd like to book a haircut for tomorrow
+          <div class="msg-time">2:14 AM</div>
+        </div>
+
+        <div class="msg msg-bot">
+          Of course! 💇 I have these slots available tomorrow:
+          <br><br>
+          • 10:00 AM<br>
+          • 11:30 AM<br>
+          • 2:00 PM<br>
+          • 4:30 PM
+          <div class="msg-time">2:14 AM</div>
+        </div>
+
+        <div class="msg msg-user">
+          2 PM works great!
+          <div class="msg-time">2:15 AM</div>
+        </div>
+
+        <div class="msg msg-bot">
+          You're booked! ✅<br><br>
+          📅 Tomorrow at 2:00 PM<br>
+          💇 Haircut — Stylist: Sarah<br><br>
+          See you then!
+          <div class="msg-time">2:15 AM</div>
+        </div>
+
+        <div class="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+
+      <div class="phone-input">
+        <div class="input-field">Type a message...</div>
+        <div class="send-btn"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Branding -->
+  <div class="brand">
+    <div class="brand-logo">Z</div>
+    <div class="brand-name">ZEPHIRSTUDIO</div>
+  </div>
+</div>
+
+</body>
+</html>

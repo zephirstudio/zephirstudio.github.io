@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalonAI - Smart Booking Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 400px;
+            height: 650px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 8px;
+            font-size: 0.75em;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 0.9em;
+            line-height: 1.4;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bot-message {
+            background: white;
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .typing {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .typing span {
+            width: 8px;
+            height: 8px;
+            background: #ccc;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0 20px 10px;
+            background: #f8f9fa;
+        }
+
+        .quick-reply {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #667eea;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.2s;
+        }
+
+        .quick-reply:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .input-area {
+            display: flex;
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #eee;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 0.9em;
+        }
+
+        .input-area input:focus {
+            border-color: #667eea;
+        }
+
+        .input-area button {
+            margin-left: 10px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: transform 0.2s;
+        }
+
+        .input-area button:hover {
+            transform: scale(1.05);
+        }
+
+        .services-card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.85em;
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-price {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .time-slot {
+            padding: 8px;
+            background: #f0f4ff;
+            border: 1px solid #667eea;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.8em;
+            color: #667eea;
+            transition: all 0.2s;
+        }
+
+        .time-slot:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .confirmation {
+            background: #f0fdf4;
+            border: 1px solid #4ade80;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .confirmation h3 {
+            color: #16a34a;
+            margin-bottom: 8px;
+        }
+
+        .powered-by {
+            text-align: center;
+            padding: 8px;
+            font-size: 0.7em;
+            color: #999;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✨ Luxe Hair Studio</h1>
+            <p>AI Booking Assistant</p>
+            <div class="status">
+                <div class="status-dot"></div>
+                Online — Ready to help
+            </div>
+        </div>
+
+        <div class="chat-area" id="chatArea"></div>
+
+        <div class="quick-replies" id="quickReplies"></div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <div class="powered-by">Powered by AI ✦ Built by [Your Name] Vibecoding</div>
+    </div>
+
+    <script>
+        const chatArea = document.getElementById('chatArea');
+        const userInput = document.getElementById('userInput');
+        const quickRepliesDiv = document.getElementById('quickReplies');
+
+        let conversationState = 'greeting';
+        let bookingData = {};
+
+        const services = [
+            { name: '💇‍♀️ Haircut & Style', price: '$45', duration: '45 min' },
+            { name: '🎨 Color & Highlights', price: '$120', duration: '2 hrs' },
+            { name: '💆‍♀️ Deep Conditioning', price: '$35', duration: '30 min' },
+            { name: '💅 Manicure', price: '$25', duration: '30 min' },
+            { name: '🦶 Pedicure', price: '$35', duration: '45 min' },
+            { name: '👰 Bridal Package', price: '$250', duration: '3 hrs' },
+        ];
+
+        const availableSlots = [
+            '9:00 AM', '10:00 AM', '11:00 AM',
+            '1:00 PM', '2:00 PM', '3:00 PM',
+            '4:00 PM', '5:00 PM', '6:00 PM'
+        ];
+
+        function addMessage(text, isUser = false, isHTML = false) {
+            const div = document.createElement('div');
+            div.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            if (isHTML) {
+                div.innerHTML = text;
+            } else {
+                div.textContent = text;
+            }
+            chatArea.appendChild(div);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function showTyping() {
+            const div = document.createElement('div');
+            div.className = 'typing';
+            div.id = 'typing';
+            div.innerHTML = '<span></span><span></span><span></span>';
+            chatArea.appendChild(div);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('typing');
+            if (typing) typing.remove();
+        }
+
+        function setQuickReplies(replies) {
+            quickRepliesDiv.innerHTML = '';
+            replies.forEach(reply => {
+                const btn = document.createElement('button');
+                btn.className = 'quick-reply';
+                btn.textContent = reply;
+                btn.onclick = () => {
+                    userInput.value = reply;
+                    sendMessage();
+                };
+                quickRepliesDiv.appendChild(btn);
+            });
+        }
+
+        function botReply(text, delay = 1000, isHTML = false) {
+            showTyping();
+            setTimeout(() => {
+                hideTyping();
+                addMessage(text, false, isHTML);
+                handleConversation();
+            }, delay);
+        }
+
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            addMessage(text, true);
+            userInput.value = '';
+            quickRepliesDiv.innerHTML = '';
+
+            processInput(text);
+        }
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        function processInput(text) {
+            const lower = text.toLowerCase();
+
+            if (conversationState === 'greeting') {
+                if (lower.includes('book') || lower.includes('appointment') || lower.includes('yes')) {
+                    conversationState = 'show_services';
+                    botReply("Great! Here are our services:");
+                } else if (lower.includes('service') || lower.includes('price') || lower.includes('menu')) {
+                    conversationState = 'show_services';
+                    botReply("Absolutely! Here's what we offer:");
+                } else if (lower.includes('hour') || lower.includes('open') || lower.includes('time')) {
+                    botReply("We're open Monday-Saturday, 9 AM - 7 PM! Would you like to book an appointment?");
+                    setQuickReplies(['Book appointment', 'See services']);
+                } else if (lower.includes('location') || lower.includes('where') || lower.includes('address')) {
+                    botReply("We're located at 123 Beauty Lane, Downtown! Free parking available. Would you like to book an appointment?");
+                    setQuickReplies(['Book appointment', 'See services']);
+                } else {
+                    botReply("I'd love to help! Would you like to book an appointment or see our services?");
+                    setQuickReplies(['Book appointment', 'See services', 'Business hours']);
+                }
+            } else if (conversationState === 'show_services') {
+                // Services display handled by handleConversation()
+                return;
+            } else if (conversationState === 'pick_service') {
+                const service = services.find(s => lower.includes(s.name.toLowerCase().split(' ')[0].replace(/[^\w]/g, '')));
+                if (service || lower.includes('haircut') || lower.includes('color') || lower.includes('manicure') || lower.includes('pedicure') || lower.includes('bridal') || lower.includes('condition')) {
+                    bookingData.service = service || services[0];
+                    conversationState = 'pick_date';
+                    botReply(`Excellent choice! ${bookingData.service.name} is ${bookingData.service.price} (${bookingData.service.duration}). What day works best for you?`);
+                    setQuickReplies(['Today', 'Tomorrow', 'This Saturday']);
+                } else {
+                    botReply("I didn't catch that. Which service would you like?");
+                    setQuickReplies(services.map(s => s.name));
+                }
+            } else if (conversationState === 'pick_date') {
+                bookingData.date = text;
+                conversationState = 'pick_time';
+                let slotsHTML = '<div class="time-slots">';
+                availableSlots.forEach(slot => {
+                    slotsHTML += `<div class="time-slot" onclick="document.getElementById('userInput').value='${slot}'; sendMessage()">${slot}</div>`;
+                });
+                slotsHTML += '</div>';
+                addMessage(`Perfect! Here are available times for ${text}:`, false);
+                addMessage(slotsHTML, false, true);
+                setQuickReplies(availableSlots.slice(0, 3));
+            } else if (conversationState === 'pick_time') {
+                bookingData.time = text;
+                conversationState = 'get_name';
+                botReply("Almost done! What name should I put the booking under?");
+            } else if (conversationState === 'get_name') {
+                bookingData.name = text;
+                conversationState = 'confirmed';
+                let confirmHTML = `
+                    <div class="confirmation">
+                        <h3>✅ Booking Confirmed!</h3>
+                        <p><strong>${bookingData.name}</strong></p>
+                        <p>${bookingData.service.name}</p>
+                        <p>${bookingData.date} at ${bookingData.time}</p>
+                        <p style="margin-top:10px;font-size:0.85em;color:#666">Confirmation sent to your phone!</p>
+                    </div>
+                `;
+                addMessage(confirmHTML, false, true);
+                setTimeout(() => {
+                    botReply("You're all set! You'll receive a text reminder 24 hours before your appointment. Need anything else?");
+                    setQuickReplies(['Book another', 'Cancel booking', 'Thanks!']);
+                }, 500);
+            } else if (conversationState === 'confirmed') {
+                if (lower.includes('another') || lower.includes('book')) {
+                    conversationState = 'show_services';
+                    bookingData = {};
+                    botReply("Let's book another! Here are our services:");
+                } else {
+                    conversationState = 'greeting';
+                    bookingData = {};
+                    botReply("Thank you for choosing Luxe Hair Studio! 💜 Have a beautiful day!");
+                    setTimeout(() => {
+                        setQuickReplies(['Book appointment', 'See services']);
+                    }, 500);
+                }
+            }
+        }
+
+        function handleConversation() {
+            if (conversationState === 'show_services') {
+                let servicesHTML = '<div class="services-card">';
+                services.forEach(s => {
+                    servicesHTML += `<div class="service-item"><span>${s.name}</span><span class="service-price">${s.price}</span></div>`;
+                });
+                servicesHTML += '</div>';
+                addMessage(servicesHTML, false, true);
+                conversationState = 'pick_service';
+                setTimeout(() => {
+                    botReply("Which service interests you?");
+                    setQuickReplies(services.map(s => s.name));
+                }, 500);
+            }
+        }
+
+        // Greeting
+        setTimeout(() => {
+            addMessage("Hi there! 👋 Welcome to Luxe Hair Studio! I'm your AI booking assistant. I can help you schedule an appointment, check our services, or answer any questions!");
+            setQuickReplies(['Book appointment', 'See services', 'Business hours']);
+        }, 500);
+    </script>
+</body>
+</html>
