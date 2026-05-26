@@ -344,7 +344,8 @@
     flex-wrap: wrap;
   }
 
-  .stat { text-align: center; }
+  .stat { text-align: center; transition: transform 0.2s; }
+  .stat:hover { transform: scale(1.05); }
 
   .stat-value {
     font-size: 28px;
@@ -411,7 +412,8 @@
   .service-card:hover {
     background: var(--surface-hover);
     border-color: var(--border-hover);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(94,106,210,0.08);
   }
 
   .service-icon {
@@ -425,6 +427,12 @@
     justify-content: center;
     margin-bottom: 20px;
     color: var(--accent-light);
+  }
+
+  .service-card:hover .service-icon {
+    background: rgba(94,106,210,0.2);
+    border-color: rgba(94,106,210,0.3);
+    box-shadow: 0 0 20px rgba(94,106,210,0.15);
   }
 
   .service-card h3 {
@@ -463,7 +471,8 @@
   .demo-card:hover {
     background: var(--surface-hover);
     border-color: var(--border-hover);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(94,106,210,0.08);
   }
 
   .demo-preview {
@@ -526,7 +535,7 @@
     transition: all 0.25s;
   }
 
-  .step:hover { border-color: var(--border-hover); }
+  .step:hover { border-color: var(--border-hover); transform: translateY(-2px); }
 
   .step-number {
     width: 44px;
@@ -575,7 +584,7 @@
     transition: all 0.25s;
   }
 
-  .testimonial-card:hover { border-color: var(--border-hover); }
+  .testimonial-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
 
   .testimonial-stars {
     color: #f59e0b;
