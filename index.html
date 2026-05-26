@@ -637,6 +637,56 @@
     position: relative;
   }
 
+  /* ===== ABOUT SECTION ===== */
+  .about-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 100px 32px;
+  }
+  .about-inner { text-align: center; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.25s;
+  }
+  .about-card:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+  .about-emoji {
+    font-size: 36px;
+    margin-bottom: 16px;
+  }
+  .about-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.2px;
+  }
+  .about-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .about-tagline {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-style: italic;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
   .cta::before {
     content: '';
     position: absolute;
@@ -1149,6 +1199,31 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="about-section">
+  <div class="about-inner fade-in">
+    <div class="section-label">Who We Are</div>
+    <h2 class="section-title">Just Two People Who Like Building Stuff</h2>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-emoji">🤖</div>
+        <h3>We Talk to Bots All Day</h3>
+        <p>Seriously. We spend our mornings arguing with chatbots about whether "Tuesday" is a valid time. We love it.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-emoji">☕</div>
+        <h3>Fueled by Coffee</h3>
+        <p>Our code-to-coffee ratio is roughly 1:4. We're not proud of it, but we're not stopping either.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-emoji">🎯</div>
+        <h3>Small Team, Big Results</h3>
+        <p>No account managers. No ticket systems. You talk directly to the person building your bot. That's us.</p>
+      </div>
+    </div>
+    <p class="about-tagline">We're not a faceless agency. We're real people who actually care if your chatbot works. (And we test it obsessively at 2am.)</p>
   </div>
 </section>
 
