@@ -687,6 +687,52 @@
     line-height: 1.6;
   }
 
+  /* ===== WHAT WE'RE NOT SECTION ===== */
+  .not-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 100px;
+  }
+  .not-inner { text-align: center; }
+  .not-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .not-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: left;
+    transition: all 0.25s;
+  }
+  .not-item:hover {
+    border-color: rgba(239,68,68,0.2);
+    transform: translateY(-2px);
+  }
+  .not-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .not-item h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: -0.1px;
+  }
+  .not-item p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
   .cta::before {
     content: '';
     position: absolute;
@@ -1224,6 +1270,43 @@
       </div>
     </div>
     <p class="about-tagline">We're not a faceless agency. We're real people who actually care if your chatbot works. (And we test it obsessively at 2am.)</p>
+  </div>
+</section>
+
+<section class="not-section">
+  <div class="not-inner fade-in">
+    <div class="section-label">Keeping It Real</div>
+    <h2 class="section-title">What We're NOT</h2>
+    <div class="not-grid">
+      <div class="not-item">
+        <span class="not-icon">❌</span>
+        <div>
+          <h3>We're Not a Big Agency</h3>
+          <p>No 6-month timelines. No 47-person team. Just us, building your bot and actually caring about it.</p>
+        </div>
+      </div>
+      <div class="not-item">
+        <span class="not-icon">❌</span>
+        <div>
+          <h3>We Don't Do Templates</h3>
+          <p>Every chatbot is built from scratch for YOUR business. Your bot won't accidentally call your salon a "restaurant."</p>
+        </div>
+      </div>
+      <div class="not-item">
+        <span class="not-icon">❌</span>
+        <div>
+          <h3>We Won't Disappear</h3>
+          <p>No vanishing after delivery. We stick around to make sure your bot actually works in the real world.</p>
+        </div>
+      </div>
+      <div class="not-item">
+        <span class="not-icon">❌</span>
+        <div>
+          <h3>We're Not Cheap (But We're Worth It)</h3>
+          <p>We're not the $5 Fiverr gig. We build quality. One extra booking pays for itself in a week.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
